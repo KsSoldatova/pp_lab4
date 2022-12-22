@@ -68,3 +68,29 @@ def group_df(df: pd.DataFrame, class_mark: int) -> None:
     df['pixels'] = img_pixels
     df.groupby('pixels').count()
     print(df.pixels.describe())
+
+
+def create_histogram(df: pd.DataFrame, class_mark: int) -> list:
+    """This function creates histogram"""
+    df = mark_filter(df, class_mark)
+    df = df.sample()
+    for item in df['absolute_path']:
+        path = item
+    img = cv2.imread(path)
+    array = []
+    for number in range(0, 3):
+        hist = cv2.calcHist([img], [number], None, [256], [0, 256])
+        array.append(hist)
+    return array
+
+
+def histogram_rendering(df: pd.DataFrame, class_mark: int) -> None:
+    """this function draws histogram"""
+    hist = create_histogram(df, class_mark)
+    plt.plot(hist[0], color='b')
+    plt.plot(hist[1], color='g')
+    plt.plot(hist[2], color='r')
+    plt.title('Image Histogram For Blue, Green, Red Channels')
+    plt.xlabel("Intensity")
+    plt.ylabel("Number of pixels")
+    plt.show()
