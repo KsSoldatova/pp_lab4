@@ -1,4 +1,3 @@
-from typing import List
 from cv2 import DFT_COMPLEX_INPUT
 
 import pandas as pd
@@ -6,19 +5,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 
-pd.options.mode.chained_assignment = None
-
 
 def create_DataFrame() -> pd.DataFrame:
     """This function takes data from 2 annotations and create dataframe with 2 columns:abs path and class"""
-    df1=pd.read_csv(r"C:\Users\kssol\PycharmProjects\pythonProject2\annotation_rose.csv",sep=',', header=None,encoding='UTF-16')
-    df2=pd.read_csv(r"C:\Users\kssol\PycharmProjects\pythonProject2\annotation_tulip.csv",sep=',', header=None,encoding='UTF-16')
+    df1 = pd.read_csv(r"C:\Users\kssol\PycharmProjects\pythonProject2\annotation_rose.csv",
+                      sep=',', header=None, encoding='UTF-16')
+    df2 = pd.read_csv(r"C:\Users\kssol\PycharmProjects\pythonProject2\annotation_tulip.csv",
+                      sep=',', header=None, encoding='UTF-16')
     df = pd.concat([df1, df2], ignore_index=True)
     df.drop(1, axis=1, inplace=True)
     df.rename(columns={0: 'absolute_path', 2: 'dataset_class'}, inplace=True)
     return df
-    
-    
 
 
 def add_mark(df: pd.DataFrame) -> None:
@@ -55,7 +52,6 @@ def mark_filter(df: pd.DataFrame, class_mark: int) -> pd.DataFrame:
 def whm_filter(df: pd.DataFrame, class_mark: int, max_width: int, max_height: int) -> pd.DataFrame:
     """this function takes all images by a given mark, maximum width and height, and returns a filtered dataframe"""
     return df[(df.mark == class_mark) & (df.height <= max_height) & (df.width <= max_width)]
-
 
 
 def group_df(df: pd.DataFrame, class_mark: int) -> None:
